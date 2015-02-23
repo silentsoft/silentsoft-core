@@ -24,6 +24,8 @@
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-io.version>2.4</commons-io.version>
 		<commons-net.version>3.3</commons-net.version>
+		<jackson.version>2.4.2</jackson.version>
+		<jason.version>20141113</jason.version>
 		<buildtime>${maven.build.timestamp}</buildtime>
 		<project.deploymentdir>${basedir}/target/silentsoft-core</project.deploymentdir>
 	</properties>
@@ -86,6 +88,26 @@
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>
 			<version>${commons-net.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>${jason.version}</version>
 		</dependency>
 	</dependencies>
 </project>
