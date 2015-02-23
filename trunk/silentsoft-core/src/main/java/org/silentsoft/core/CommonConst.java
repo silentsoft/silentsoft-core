@@ -8,6 +8,7 @@ public class CommonConst {
 	public static final String SEMICOLON = ";";
 	public static final String EQUAL = "=";
 	public static final String COMMA = ",";
+	public static final char COMMA_CHAR = ',';
 	public static final String AT = "@";
 	public static final String STAR = "*";
 	public static final String QUESTION_MARK = "?";
@@ -24,7 +25,9 @@ public class CommonConst {
 	public static final String ACTIVE = "active";
 	public static final String PASSIVE = "passive";
 	public static final String BRACKET_OPEN = "(";
+	public static final char   BRACKET_OPEN_CHAR = '(';
 	public static final String BRACKET_CLOSE = ")";
+	public static final char   BRACKET_CLOSE_CHAR = ')';
 	public static final String BRACE_OPEN = "{";
 	public static final String BRACE_CLOSE = "}";
 	public static final String BRACKET_ANGLE_OPEN = "<";
