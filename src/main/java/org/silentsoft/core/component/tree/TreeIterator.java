@@ -6,7 +6,8 @@ import java.util.Stack;
 import javafx.scene.control.TreeItem;
 
 public class TreeIterator<T> implements Iterator<TreeItem<T>> {
-    private Stack<TreeItem<T>> stack = new Stack<>();
+
+	private Stack<TreeItem<T>> stack = new Stack<>();
 
     public TreeIterator(TreeItem<T> root) {
         stack.push(root);
@@ -24,4 +25,5 @@ public class TreeIterator<T> implements Iterator<TreeItem<T>> {
 
         return nextItem;
     }
+
 }
