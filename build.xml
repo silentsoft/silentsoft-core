@@ -17,7 +17,7 @@
 
 	<target name="jar" depends="prepare">
 	
-		<jar destfile="${project.deploymentdir}/lib/silentsoft-core-${project.version}.jar">
+		<jar destfile="${project.deploymentdir}/${project.name}-${project.version}.jar">
 			<fileset dir="${project.build.directory}/classes" includes="org/silentsoft/core/**" />
 		</jar>
 		

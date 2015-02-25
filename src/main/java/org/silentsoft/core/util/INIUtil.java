@@ -58,7 +58,15 @@ public class INIUtil {
 	}
 	
 	public String getData(String section, String key) {
-		return (String) iniUtil.get(section).get(key);
+		String data = "";
+
+		try {
+			data = (String) iniUtil.get(section).get(key);
+		} catch (Exception e) {
+			;
+		}
+		
+		return data;
 	}
 	
 	public void setData(String section, String key, Object data) {
