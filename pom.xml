@@ -6,7 +6,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.silentsoft</groupId>
-	<artifactId>core</artifactId>
+	<artifactId>silentsoft-core</artifactId>
 	<version>1.0.0</version>
 
 	<repositories>
