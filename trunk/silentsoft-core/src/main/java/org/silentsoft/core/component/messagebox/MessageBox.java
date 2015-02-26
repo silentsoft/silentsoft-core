@@ -22,6 +22,15 @@ public final class MessageBox {
 			   .showConfirm();
 	}
 	
+	public static Action showConfirmWithMasthead(Object owner, String masthead, String message) {
+		return Dialogs.create()
+			   .owner(owner)
+			   .title("Confirm")
+			   .masthead(masthead)
+			   .message(message)
+			   .showConfirm();
+	}
+	
 	public static void showErrorTypeVaildationFailure(Object owner, String message) {
 		Dialogs.create()
         .owner(owner)
