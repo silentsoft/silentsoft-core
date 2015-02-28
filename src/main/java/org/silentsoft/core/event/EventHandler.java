@@ -38,7 +38,31 @@ public final class EventHandler {
 		}
 	}
 	
-	public static synchronized void callEvent(final Class<?> caller, final String event) {
+	/**
+	 * call event by asynch
+	 * @param caller
+	 * @param event
+	 */
+	public static synchronized void callEvent(final Class<?> caller, String event) {
+		callEvent(caller, event, true);
+	}
+	
+	/**
+	 * if doAsynch is true, event will fire by asynch.
+	 * if false, event will fire by synch
+	 * @param caller
+	 * @param event
+	 * @param doAsynch
+	 */
+	public static synchronized void callEvent(final Class<?> caller, String event, boolean doAsynch) {
+		if (doAsynch) {
+			callEventByAsynch(caller, event);
+		} else {
+			callEventBySynch(caller, event);
+		}
+	}
+	
+	private static synchronized void callEventByAsynch(final Class<?> caller, final String event) {
 		ExecutorService executorService = Executors.newFixedThreadPool(MAX_THREAD_POOL);
 		
 		LOGGER.info("[Event occur : <{}> by <{}>]", new Object[]{event, caller.getName()});
@@ -61,5 +85,19 @@ public final class EventHandler {
         }
 		
 		executorService.shutdown();
+	}
+	
+	private static synchronized void callEventBySynch(final Class<?> caller, final String event) {
+		LOGGER.info("[Event occur : <{}> by <{}>]", new Object[]{event, caller.getName()});
+		
+		for (final EventListener listener : listeners) {
+			if (listener.getClass().getName().equals(caller.getName())) {
+                LOGGER.info("[Event skip : <{}> by self <{}>]", new Object[]{event, caller.getName()});
+            } else {
+                LOGGER.info("[Event catch : <{}> by <{}>]", new Object[]{event, listener.getClass().getName()});
+                
+                listener.onEvent(event);
+            }
+        }
 	}
 }
