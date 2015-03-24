@@ -36,6 +36,9 @@ public class CommonConst {
 	public static final String TRUE = "true";
 	public static final String FALSE = "false";
 	
+	public static final int SIZE_EMPTY = 0;
+	public static final int FIRST_INDEX = 0;
+	
 	public static final int    MOUSE_SINGLE_CLICK = 1;
 	public static final int    MOUSE_DOUBLE_CLICK = 2;
 	
