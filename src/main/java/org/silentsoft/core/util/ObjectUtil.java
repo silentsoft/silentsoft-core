@@ -12,7 +12,7 @@ public final class ObjectUtil {
 	}
 	
 	/**
-	 * str 문자열에서 index에 해당하는 부분만 대문자, 혹은 소문자로 고친다. (IndexCaseTypes에 따른 설정)
+	 * index of str will be change to upper or lower case.
 	 * 
 	 * @param str
 	 *            target
@@ -43,7 +43,7 @@ public final class ObjectUtil {
 	}
 	
 	public static String toString(Object obj) {
-		return obj.toString();
+		return (obj == null) ? "" : obj.toString();
 	}
 	
 	public static int toInt(Object obj) {
