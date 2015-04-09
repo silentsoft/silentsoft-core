@@ -23,6 +23,9 @@ public final class DateUtil {
 	public static final String DATEFORMAT_WINDOWS_REVERSE = "dd-MM-yy";
 	
 	public static final String DATEFORMAT_YYYYMMDDHHMMSS = "yyyyMMddhhmmss";
+//	public static final String DATEFORMAT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
+	
+	public static final String DATEFORMAT_YYYYMMDDHH24MISS = "YYYYMMDDHH24MISS";
 	
 	public static final char UPPER_CHAR_YEAR = 'Y';
 	public static final char UPPER_CHAR_MONTH = 'M';
@@ -45,7 +48,7 @@ public final class DateUtil {
 		return new SimpleDateFormat(format, Locale.ENGLISH).format(date);
 	}
 	
-	public static String getSystemDataAsStr(String format) {
+	public static String getSystemDateAsStr(String format) {
 		return new SimpleDateFormat(format).format(new Date());
 	}
 	
