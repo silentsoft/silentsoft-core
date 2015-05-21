@@ -43,15 +43,27 @@ public final class ObjectUtil {
 	}
 	
 	public static String toString(Object obj) {
-		return (obj == null) ? "" : obj.toString();
+		return (isEmpty(obj)) ? "" : obj.toString();
+	}
+	
+	public static String toString(Object obj, String emptyThen) {
+		return (isEmpty(obj)) ? emptyThen : toString(obj);
 	}
 	
 	public static int toInt(Object obj) {
-		return (obj == null) ? 0 : ((Integer)obj).intValue();
+		return (isEmpty(obj)) ? 0 : ((Integer)obj).intValue();
+	}
+	
+	public static int toInt(Object obj, int emptyThen) {
+		return (isEmpty(obj)) ? emptyThen : toInt(obj);
 	}
 	
 	public static boolean toBoolean(Object obj) {
 		return ((Boolean)obj).booleanValue(); 
+	}
+	
+	public static boolean toBoolean(Object obj, boolean emptyThen) {
+		return (isEmpty(obj)) ? emptyThen : toBoolean(obj);
 	}
 	
 	public static Map toMap(Object obj) {
