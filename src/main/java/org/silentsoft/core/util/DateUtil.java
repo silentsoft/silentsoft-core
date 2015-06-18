@@ -16,6 +16,14 @@ public final class DateUtil {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(DateUtil.class);
 	
+	public enum TimeType {
+		SECONDS,
+		MINUTES,
+		HOURS,
+		DAYS,
+		WEEKS
+	}
+	
 	public static final String DATEFORMAT_TIME_NORMAL = "hh:mm:ss";
 	
 	public static final String DATEFORMAT_WINDOWS_NORMAL = "yy-MM-dd";
@@ -42,6 +50,14 @@ public final class DateUtil {
 		}
 		
 		return false;
+	}
+	
+	private static Date getBigDate(Date date1, Date date2) {
+		return date1.compareTo(date2) > 0 ? date1 : date2;
+	}
+	
+	private static Date getSmallDate(Date date1, Date date2) {
+		return date1.compareTo(date2) > 0 ? date2 : date1;
 	}
 	
 	public static String getDateAsStr(Date date, String format) {
@@ -122,5 +138,79 @@ public final class DateUtil {
 	public static void setSystemDate(String date, String time) throws IOException {
 		Runtime.getRuntime().exec("cmd /c date " + date);
 		Runtime.getRuntime().exec("cmd /c time " + time);
+	}
+	
+	
+	public static int getDifferenceSeconds(Date date1, Date date2) {
+		return getDifference(date1, date2, TimeType.SECONDS);
+	}
+	
+	public static int getDifferenceSecondsFromNow(Date date) {
+		return getDifference(new Date(), date, TimeType.SECONDS);
+	}
+	
+	public static int getDifferenceMinutes(Date date1, Date date2) {
+		return getDifference(date1, date2, TimeType.MINUTES);
+	}
+	
+	public static int getDifferenceMinutesFromNow(Date date) {
+		return getDifference(new Date(), date, TimeType.MINUTES);
+	}
+	
+	public static int getDifferenceHours(Date date1, Date date2) {
+		return getDifference(date1, date2, TimeType.HOURS);
+	}
+	
+	public static int getDifferenceHoursFromNow(Date date) {
+		return getDifference(new Date(), date, TimeType.HOURS);
+	}
+	
+	public static int getDifferenceDays(Date date1, Date date2) {
+		return getDifference(date1, date2, TimeType.DAYS);
+	}
+	
+	public static int getDifferenceDaysFromNow(Date date) {
+		return getDifference(new Date(), date, TimeType.DAYS);
+	}
+	
+	public static int getDifferenceWeeks(Date date1, Date date2) {
+		return getDifference(date1, date2, TimeType.WEEKS);
+	}
+	
+	public static int getDifferenceWeeksFromNow(Date date) {
+		return getDifference(new Date(), date, TimeType.WEEKS);
+	}
+	
+	/**
+	 * Count difference between date1 and date2 by time type
+	 * @param date1
+	 * @param date2
+	 * @param timeType
+	 * @return
+	 */
+	public static int getDifference(Date date1, Date date2, TimeType timeType) {
+		int difference = 0;
+		
+		long diff = Math.abs(getBigDate(date1, date2).getTime() - getSmallDate(date1, date2).getTime());
+		
+		switch (timeType) {
+		case SECONDS :
+			difference = (int) (diff / 1000);
+			break;
+		case MINUTES :
+			difference = (int) (diff / (1000 * 60));
+			break;
+		case HOURS :
+			difference = (int) (diff / (1000 * 60 * 60));
+			break;
+		case DAYS :
+			difference = (int) (diff / (1000 * 60 * 60 * 24));
+			break;
+		case WEEKS :
+			difference = (int) (diff / (1000 * 60 * 60 * 24 * 7));
+			break;
+		}
+		
+		return difference;
 	}
 }
