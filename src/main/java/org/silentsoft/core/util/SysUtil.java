@@ -63,11 +63,58 @@ public final class SysUtil {
 	}
 	
 	/**
-	 * Execute program as administrator. This is same with {@link Elevator.executeAsAdmin}
+	 * Run program using windows CMD command.
+	 * @param target
+	 * @throws IOException
+	 */
+	public static void runProgram(String target) throws IOException {
+		runProgram(target, "");
+	}
+	
+	/**
+	 * Run program using windows CMD command with specific arguments.
+	 * @param target
+	 * @param args
+	 * @throws IOException
+	 */
+	public static void runProgram(String target, String args) throws IOException {
+		args = (args == null) ? "" : args;
+		Runtime.getRuntime().exec("cmd /C start " + target + " " + args);
+	}
+	
+	/**
+	 * Run program as administrator using windows CMD command.
+	 * @param target
+	 */
+	public static void runProgramAsAdmin(String target) {
+		runProgramAsAdmin(target, "");
+	}
+	
+	/**
+	 * Run program as administrator using windows CMD command with specific arguments.
 	 * @param target
 	 * @param args
 	 */
-	public static void executeAsAdmin(String target, String args) {
+	public static void runProgramAsAdmin(String target, String args) {
+		args = (args == null) ? "" : args;
+		Elevator.executeAsAdmin("c:\\windows\\system32\\cmd.exe", "/C start " + target + " " + args);
+	}
+	
+	/**
+	 * Execute program as administrator. (not using windows CMD command)
+	 * @param target
+	 */
+	public static void executeAsAdmin(String target) {
+		executeProgramAsAdmin(target, "");
+	}
+	
+	/**
+	 * Execute program as administrator with specific arguments. (not using windows CMD command)
+	 * @param target
+	 * @param args
+	 */
+	public static void executeProgramAsAdmin(String target, String args) {
+		args = (args == null) ? "" : args;
 		Elevator.executeAsAdmin(target, args);
 	}
 	
