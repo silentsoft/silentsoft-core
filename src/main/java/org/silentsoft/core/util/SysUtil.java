@@ -1,13 +1,13 @@
 package org.silentsoft.core.util;
 
-import org.silentsoft.core.util.elevator.core.Elevator;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
+
+import org.silentsoft.core.util.elevator.core.Elevator;
 
 public final class SysUtil {
 	
