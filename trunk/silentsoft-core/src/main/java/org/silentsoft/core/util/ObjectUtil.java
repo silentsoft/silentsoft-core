@@ -50,16 +50,53 @@ public final class ObjectUtil {
 		return (isEmpty(obj)) ? emptyThen : toString(obj);
 	}
 	
+	/**
+	 * if obj is empty, return 0. otherwise, convert to int value.
+	 * @param obj
+	 * @return
+	 */
 	public static int toInt(Object obj) {
-		return (isEmpty(obj)) ? 0 : ((Integer)obj).intValue();
+		int toInt = 0;
+		
+		if (isNotEmpty(obj)) {
+			if (obj instanceof String) {
+				toInt = Integer.valueOf((String) obj);
+			} else if (obj instanceof Float) {
+				toInt = (int) ((float) obj);
+			} else if (obj instanceof Double) {
+				toInt = (int) ((double) obj);
+			} else {
+				String toString = obj.toString();
+				toInt = Integer.valueOf(toString);
+			}
+		}
+		
+		return toInt;
 	}
 	
 	public static int toInt(Object obj, int emptyThen) {
 		return (isEmpty(obj)) ? emptyThen : toInt(obj);
 	}
 	
+	/**
+	 * if obj is empty, return false. otherwise, convert to boolean value.
+	 * @param obj
+	 * @return
+	 */
 	public static boolean toBoolean(Object obj) {
-		return ((Boolean)obj).booleanValue(); 
+		boolean toBoolean = false;
+		
+		if (isNotEmpty(obj)) {
+			if (obj instanceof String) {
+				toBoolean = Boolean.valueOf((String) obj);
+			} else if (obj instanceof Integer) {
+				toBoolean = ((Integer) obj) == 1 ? true : false;
+			} else {
+				toBoolean = ((Boolean) obj).booleanValue();
+			}
+		}
+		
+		return toBoolean; 
 	}
 	
 	public static boolean toBoolean(Object obj, boolean emptyThen) {
