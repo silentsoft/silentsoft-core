@@ -90,17 +90,19 @@ public class FileUtil {
     }
     
     public static String getName(String fileName) {
+    	int lastIndexOfSeparator = fileName.lastIndexOf(File.separator);
     	int lastIndexOfDot = fileName.lastIndexOf(CommonConst.DOT);
-    	if (lastIndexOfDot != -1) {
-    		return fileName.substring(0, fileName.lastIndexOf(CommonConst.DOT));
-    	}
     	
-    	return fileName;
+    	lastIndexOfDot = (lastIndexOfDot > lastIndexOfSeparator) ? lastIndexOfDot : fileName.length();
+    	
+    	return fileName.substring(lastIndexOfSeparator+1, lastIndexOfDot);
     }
     
     public static String getExtension(String fileName) {
+    	int lastIndexOfSeparator = fileName.lastIndexOf(File.separator);
     	int lastIndexOfDot = fileName.lastIndexOf(CommonConst.DOT);
-    	if (lastIndexOfDot != -1) {
+    	
+    	if (lastIndexOfDot != -1 && lastIndexOfDot > lastIndexOfSeparator) {
     		return fileName.substring(fileName.lastIndexOf(CommonConst.DOT)+1, fileName.length());
     	}
     	
