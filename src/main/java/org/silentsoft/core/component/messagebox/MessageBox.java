@@ -3,7 +3,12 @@ package org.silentsoft.core.component.messagebox;
 import org.controlsfx.dialog.Dialogs;
 import org.controlsfx.control.action.Action;
 
+@SuppressWarnings("deprecation")
 public final class MessageBox {
+	
+	public static void test() {
+		return;
+	}
 	
 	public static void showAbout(Object owner, String masthead, String message) {
 		Dialogs.create()
