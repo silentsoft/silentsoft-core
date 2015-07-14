@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import org.silentsoft.core.util.elevator.core.Elevator;
 
@@ -116,6 +117,23 @@ public final class SysUtil {
 	public static void executeProgramAsAdmin(String target, String args) {
 		args = (args == null) ? "" : args;
 		Elevator.executeAsAdmin(target, args);
+	}
+	
+	/**
+	 * get default system language code(ex: en, ko, ..)
+	 * @return
+	 */
+	public static String getLanguage() {
+		return Locale.getDefault().getLanguage();
+	}
+	
+	/**
+	 * return <code>language</code> is system language or not 
+	 * @param language
+	 * @return
+	 */
+	public static boolean isSystemLanguage(String language) {
+		return getLanguage().equals(new Locale(language).getLanguage());
 	}
 	
 	/**
