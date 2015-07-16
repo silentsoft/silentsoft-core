@@ -3,6 +3,7 @@ package org.silentsoft.core.util;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -32,8 +33,10 @@ public final class DateUtil {
 	
 	public static final String DATEFORMAT_YYYYMMDDHHMMSS = "yyyyMMddhhmmss";
 //	public static final String DATEFORMAT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
+	public static final String DATEFORMAT_YYYYMMDDHHMMSS_MASK = "yyyy-MM-dd hh:mm:ss";
 	
 	public static final String DATEFORMAT_YYYYMMDDHH24MISS = "YYYYMMDDHH24MISS";
+	public static final String DATEFORMAT_YYYYMMDDHH24MISS_MASK = "YYYY-MM-DD HH24:MI:SS";
 	
 	public static final char UPPER_CHAR_YEAR = 'Y';
 	public static final char UPPER_CHAR_MONTH = 'M';
@@ -62,6 +65,18 @@ public final class DateUtil {
 	
 	public static String getDateAsStr(Date date, String format) {
 		return new SimpleDateFormat(format, Locale.ENGLISH).format(date);
+	}
+	
+	public static String getDateAsStr(String date, String fromFormat, String toFormat) {
+		String returnDate = "";
+		
+		try {
+			returnDate = new SimpleDateFormat(toFormat).format(new SimpleDateFormat(fromFormat).parse(date));
+		} catch (ParseException e) {
+			returnDate = date;
+		}
+		
+		return returnDate;
 	}
 	
 	public static String getSystemDateAsStr(String format) {
