@@ -4,6 +4,7 @@
 	<target name="prepare">
 
 		<mkdir dir="${project.deploymentdir}" />
+		<!--
 		<mkdir dir="${project.deploymentdir}/conf" />
 		<mkdir dir="${project.deploymentdir}/lib" />
 
@@ -12,7 +13,7 @@
 				<file file="${basedir}/src/main/resources/log4j.xml" />
 			</resources>
 		</copy>
-
+		-->
 	</target>
 
 	<target name="jar" depends="prepare">
