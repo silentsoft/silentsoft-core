@@ -1,5 +1,9 @@
 package org.silentsoft.core.component.messagebox;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 import javafx.application.Platform;
@@ -55,6 +59,24 @@ public final class MessageBox {
 	}
 	
 	public static Action showConfirm(Object owner, String masthead, String message) {
+		//////////////////////////////////////////////////////////////
+		String title = "Confirm";
+		
+		if (owner == null) {
+			if (masthead == null) {
+				return Dialogs.create().title(title).message(message).showConfirm();
+			} else {
+				return Dialogs.create().title(title).masthead(masthead).message(message).showConfirm();
+			}
+		} else {
+			if (masthead == null) {
+				return Dialogs.create().owner(owner).title(title).message(message).showConfirm();
+			} else {
+				return Dialogs.create().owner(owner).title(title).masthead(masthead).message(message).showConfirm();
+			}
+		}
+		//////////////////////////////////////////////////////////////
+		/**
 		FutureTask<Action> futureTask = new FutureTask<Action>(() -> {
 			String title = "Confirm";
 			
@@ -73,14 +95,17 @@ public final class MessageBox {
 			}
 		});
 		
-		Action action;
+		Platform.runLater(futureTask);
+		
+		Action action = null;
 		try {
-			action = (Action) futureTask.get();
+			action = futureTask.get();
 		} catch (Exception e) {
-			action = null;
+			;
 		}
 		
 		return action;
+		*/
 	}
 	
 	public static void showError(String message) {
