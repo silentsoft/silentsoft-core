@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -44,6 +46,16 @@ public final class SysUtil {
 		String getResult() {
 			return sw.toString();
 		}
+	}
+	
+	public static String getHostAddress() {
+		try {
+			return Inet4Address.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			;
+		}
+		
+		return "";
 	}
 	
 	/**
