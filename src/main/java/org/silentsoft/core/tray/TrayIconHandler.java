@@ -11,8 +11,11 @@ import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javafx.application.Platform;
 
 import org.silentsoft.core.CommonConst;
 import org.slf4j.Logger;
@@ -105,7 +108,7 @@ public final class TrayIconHandler {
 		registerTrayIcon(image, toolTip, null);
 	}
 	
-	public static void registerTrayIcon(Image image, String toolTip, Runnable doubleClickAction) {
+	public static void registerTrayIcon(Image image, String toolTip, ActionListener action) {
 		if (SystemTray.isSupported()) {
 			if (trayIcon != null) {
 				trayIcon = null;
@@ -118,36 +121,48 @@ public final class TrayIconHandler {
 				trayIcon.setToolTip(toolTip);
 			}
 			
-			if (doubleClickAction != null) {
-				trayIcon.addMouseListener(new MouseListener() {
-					
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						
-					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-						
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						
-					}
-					
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						if (e.getClickCount() >= CommonConst.MOUSE_DOUBLE_CLICK) {
-							doubleClickAction.run();
-						}
-					}
-				});
+			if (action != null) {
+				trayIcon.addActionListener(action);
+//				trayIcon.addMouseListener(new MouseAdapter() {
+//					Runnable action = doubleClickAction;
+//					
+//					@Override
+//					public void mouseClicked(MouseEvent e) {
+//						if (e.getClickCount() >= CommonConst.MOUSE_DOUBLE_CLICK) {
+//							Platform.runLater(action);
+//						}
+//					}
+//				});
+//				trayIcon.addMouseListener(new MouseListener() {
+//					
+//					@Override
+//					public void mouseReleased(MouseEvent e) {
+//						
+//					}
+//					
+//					@Override
+//					public void mousePressed(MouseEvent e) {
+//						
+//					}
+//					
+//					@Override
+//					public void mouseExited(MouseEvent e) {
+//						
+//					}
+//					
+//					@Override
+//					public void mouseEntered(MouseEvent e) {
+//						
+//					}
+//					
+//					@Override
+//					public void mouseClicked(MouseEvent e) {
+//						if (e.getClickCount() >= CommonConst.MOUSE_DOUBLE_CLICK) {
+////							doubleClickAction.run();
+//							Platform.runLater(doubleClickAction);
+//						}
+//					}
+//				});
 			}
 			
 			try {
