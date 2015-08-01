@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 import org.silentsoft.core.util.elevator.core.Elevator;
 
@@ -137,6 +138,10 @@ public final class SysUtil {
 	 */
 	public static String getLanguage() {
 		return Locale.getDefault().getLanguage();
+	}
+	
+	public static String getUUID() {
+		return UUID.randomUUID().toString();
 	}
 	
 	/**
