@@ -1,15 +1,26 @@
 package org.silentsoft.core.util;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+
+import javax.swing.Icon;
+import javax.swing.filechooser.FileSystemView;
 
 import org.silentsoft.core.util.elevator.core.Elevator;
 
@@ -151,6 +162,64 @@ public final class SysUtil {
 	 */
 	public static boolean isSystemLanguage(String language) {
 		return getLanguage().equals(new Locale(language).getLanguage());
+	}
+	
+	public static Image getIconFromExtensionFx(String extension) {
+		return getIconFromExtensionFx(extension, 0, 0);
+	}
+	
+	public static Image getIconFromExtensionFx(String extension, int width, int height) {
+		return SwingFXUtils.toFXImage(getIconFromExtension(extension, width, height), null);
+	}
+	
+	public static BufferedImage getIconFromExtension(String extension) {
+		return getIconFromExtension(extension, 0, 0);
+	}
+	
+	private static Map<String, BufferedImage> extensionMap = new HashMap<String, BufferedImage>();	
+	public static BufferedImage getIconFromExtension(String extension, int width, int height) {
+		if (extension == null) {
+			return null;
+		}
+		
+		BufferedImage bufferedImage = extensionMap.get(extension);
+		if (bufferedImage == null) {
+			File file = null;
+			try {
+				boolean isDirectory = (extension.length() <= 0) ? true : false;
+				
+				if (isDirectory) {
+					file = Files.createTempDirectory("temp").toFile();
+				} else {
+					file = Files.createTempFile("temp", ".".concat(extension)).toFile();
+				}
+				
+		        // Windows {
+				Icon icon = FileSystemView.getFileSystemView().getSystemIcon(file);
+		        // }
+	
+		        // OS X {
+		        //final JFileChooser fileChooser = new JFileChooser();
+		        //Icon icon = fileChooser.getUI().getFileView(fileChooser).getIcon(file);
+		        // }
+				
+	            width = (width == 0) ? icon.getIconWidth() : width;
+	            height = (height == 0) ? icon.getIconHeight() : height;
+	            
+	            bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	            icon.paintIcon(null, bufferedImage.getGraphics(), 0, 0);
+	            
+	            extensionMap.put(extension, bufferedImage);
+			} catch (Exception e) {
+				
+			} finally {
+				if (file != null) {
+					file.delete();
+				}
+			}
+		}
+		
+		return bufferedImage;
 	}
 	
 	/**
