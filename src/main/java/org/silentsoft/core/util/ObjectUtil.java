@@ -65,6 +65,8 @@ public final class ObjectUtil {
 				toInt = (int) ((float) obj);
 			} else if (obj instanceof Double) {
 				toInt = (int) ((double) obj);
+			} else if (obj instanceof Boolean) {
+				toInt = ((Boolean) obj).compareTo(false);
 			} else {
 				String toString = obj.toString();
 				toInt = Integer.valueOf(toString);

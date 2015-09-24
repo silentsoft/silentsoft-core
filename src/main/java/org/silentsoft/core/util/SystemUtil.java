@@ -24,7 +24,7 @@ import javax.swing.filechooser.FileSystemView;
 
 import org.silentsoft.core.util.elevator.core.Elevator;
 
-public final class SysUtil {
+public final class SystemUtil {
 	
 	private static final String REGQUERY_UTIL = "reg query ";
 	private static final String REGADD_UTIL = "reg add ";
