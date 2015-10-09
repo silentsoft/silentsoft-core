@@ -13,53 +13,64 @@ import org.silentsoft.core.CommonConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class ZipUtil {
+public class ZipUtil {
 	private static Logger LOGGER = LoggerFactory.getLogger(ZipUtil.class);
 
-	private static final ZipUtil instance = new ZipUtil();
-	
 	public static final int BUFFER_SIZE = 1024 * 5;
 	public static final int DEFAULT_COMPRESSION_LEVEL = 8;
 
 	private String sourcePath;
 	private List<String> fileList;
 
-	private static ZipUtil getInstance() {
-		return instance;
-	}
-
-	public static boolean doZip(String sourcePath, String zipFile) {
+	public boolean doZip(String sourcePath, String zipFile) {
 		return doZip(sourcePath, zipFile, DEFAULT_COMPRESSION_LEVEL);
 	}
 
-	public static boolean doZip(String sourcePath, String zipFile, int compressionLevel) {
+	public boolean doZip(String sourcePath, String zipFile, int compressionLevel) {
 		boolean bResult = true;
 		
-		getInstance().sourcePath = sourcePath;
-		getInstance().fileList = new ArrayList<String>();
-
-		generateFileList(new File(sourcePath));
-
+		this.sourcePath = sourcePath;
+		
+		fileList = new ArrayList<String>();
+		
+		boolean isDirectory = (new File(sourcePath).isDirectory()) ? true : false;
+		if (isDirectory) {
+			generateFileList(new File(sourcePath));
+		}
+		
 		byte[] buffer = new byte[BUFFER_SIZE];
 		try {
 			LOGGER.info("Start make zip : <{}>", new Object[] { zipFile });
 			ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile));
 			zos.setLevel(compressionLevel);
 
-			for (String file : getInstance().fileList) {
-				zos.putNextEntry(new ZipEntry(file));
-				
-				// Do not use .isFile or .isDirectory method. Must validate by "/" character.
-				if (!file.endsWith(CommonConst.SEPARATOR)) {
-					FileInputStream fis = new FileInputStream(sourcePath + File.separator + file);
-	
-					int len;
-					while ((len = fis.read(buffer)) != -1) {
-						zos.write(buffer, 0, len);
+			if (isDirectory) {
+				for (String file : fileList) {
+					zos.putNextEntry(new ZipEntry(file));
+					
+					// Do not use .isFile or .isDirectory method. Must validate by "/" character.
+					if (!file.endsWith(CommonConst.SEPARATOR)) {
+						FileInputStream fis = new FileInputStream(sourcePath + File.separator + file);
+		
+						int len;
+						while ((len = fis.read(buffer)) != -1) {
+							zos.write(buffer, 0, len);
+						}
+		
+						fis.close();
 					}
-	
-					fis.close();
 				}
+			} else {
+				zos.putNextEntry(new ZipEntry(""));
+				
+				FileInputStream fis = new FileInputStream(sourcePath);
+				
+				int len;
+				while ((len = fis.read(buffer)) != -1) {
+					zos.write(buffer, 0, len);
+				}
+
+				fis.close();
 			}
 
 			zos.closeEntry();
@@ -74,16 +85,14 @@ public final class ZipUtil {
 		return bResult;
 	}
 
-	private static void generateFileList(File node) {
+	private void generateFileList(File node) {
 		if (node.isFile()) {
-			getInstance().fileList.add(generateZipEntry(node.getAbsolutePath()));
-		}
-
-		if (node.isDirectory()) {
+			fileList.add(generateZipEntry(node.getAbsolutePath()));
+		} else if (node.isDirectory()) {
 			String[] subNode = node.list();
 			if (subNode.length == 0) {
 				// Do not use File.separator if directory.
-				getInstance().fileList.add(generateZipEntry(node.getAbsolutePath() + CommonConst.SEPARATOR));
+				fileList.add(generateZipEntry(node.getAbsolutePath().concat(CommonConst.SEPARATOR)));
 			} else {
 				for (String fileName : subNode) {
 					generateFileList(new File(node, fileName));
@@ -92,11 +101,11 @@ public final class ZipUtil {
 		}
 	}
 
-	private static String generateZipEntry(String file) {
-		return file.substring(getInstance().sourcePath.length() + 1, file.length());
+	private String generateZipEntry(String file) {
+		return file.substring(sourcePath.length() + 1, file.length());
 	}
 
-	public static boolean unZip(String zipFile, String targetPath) {
+	public boolean unZip(String zipFile, String targetPath) {
 		boolean bResult = true;
 		
 		byte[] buffer = new byte[BUFFER_SIZE];
