@@ -1,6 +1,8 @@
 package org.silentsoft.core.hotkey;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,8 +12,6 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyCombination.Modifier;
 import javafx.scene.input.KeyEvent;
-
-import org.silentsoft.core.util.ObjectUtil;
 
 public class HotkeyHandler implements EventHandler<KeyEvent> {
 
@@ -51,22 +51,21 @@ public class HotkeyHandler implements EventHandler<KeyEvent> {
 	}
 	
 	private Modifier[] makeModifiers(boolean shiftDown, boolean controlDown, boolean altDown) {
-		int count = ObjectUtil.toInt(shiftDown) + ObjectUtil.toInt(controlDown) + ObjectUtil.toInt(altDown);
+		List<Modifier> modifiers = new ArrayList<Modifier>();
 		
-		Modifier[] modifiers = new Modifier[count];
-		
-		try {
-			int i = 0;
-			modifiers[i] = KeyCombination.SHIFT_DOWN;
-			i++;
-			modifiers[i] = KeyCombination.CONTROL_DOWN;
-			i++;
-			modifiers[i] = KeyCombination.ALT_DOWN;
-		} catch (ArrayIndexOutOfBoundsException e) {
-			;
+		if (shiftDown) {
+			modifiers.add(KeyCombination.SHIFT_DOWN);
 		}
 		
-		return modifiers;
+		if (controlDown) {
+			modifiers.add(KeyCombination.CONTROL_DOWN);
+		}
+
+		if (altDown) {
+			modifiers.add(KeyCombination.ALT_DOWN);
+		}
+		
+		return modifiers.toArray(new Modifier[0]);
 	}
 	
 	@Override
