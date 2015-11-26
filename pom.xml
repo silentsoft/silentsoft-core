@@ -17,6 +17,7 @@
 	</repositories>
 
 	<properties>
+		<silentsoft-io.version>1.0.0</silentsoft-io.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<jna.version>4.1.0</jna.version>
 		<controlsfx.version>8.20.8</controlsfx.version>
@@ -98,6 +99,17 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.silentsoft</groupId>
+			<artifactId>silentsoft-io</artifactId>
+			<version>${silentsoft-io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
