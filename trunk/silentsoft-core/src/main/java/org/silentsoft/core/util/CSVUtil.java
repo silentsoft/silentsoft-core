@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.silentsoft.core.CommonConst;
-import org.silentsoft.core.data.DataSet;
+import org.silentsoft.io.data.DataSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
