@@ -17,16 +17,38 @@
 	</repositories>
 
 	<properties>
+		<!-- Generic properties (Warning : DO NOT REMOVE) -->
+		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- Silentsoft -->
 		<silentsoft-io.version>1.0.0</silentsoft-io.version>
-		<slf4j.version>1.6.1</slf4j.version>
-		<jna.version>4.1.0</jna.version>
+
+		<!-- ControlsFx -->
 		<controlsfx.version>8.20.8</controlsfx.version>
+
+		<!-- Native -->
+		<jna.version>4.1.0</jna.version>
+
+		<!-- Apache -->
 		<commons-daemon.version>1.0.10</commons-daemon.version>
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-io.version>2.4</commons-io.version>
 		<commons-net.version>3.3</commons-net.version>
+
+		<!-- JSON -->
 		<jackson.version>2.4.2</jackson.version>
 		<jason.version>20141113</jason.version>
+
+		<!-- Logging -->
+		<slf4j.version>1.7.5</slf4j.version>
+
+		<!-- Test -->
+		<junit.version>4.8.1</junit.version>
+
 		<buildtime>${maven.build.timestamp}</buildtime>
 		<project.deploymentdir>${basedir}/target/silentsoft-core</project.deploymentdir>
 	</properties>
@@ -105,22 +127,6 @@
 			<version>${silentsoft-io.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
 			<version>${jna.version}</version>
@@ -174,6 +180,22 @@
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>${jason.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
