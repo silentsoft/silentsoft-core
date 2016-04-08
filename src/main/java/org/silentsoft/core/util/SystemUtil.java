@@ -230,12 +230,12 @@ public final class SystemUtil {
 		StringBuffer systemTime = new StringBuffer();
 		
 		Calendar calendar = Calendar.getInstance();
-		systemTime.append(BaseUtil.fillData(BaseUtil.toString(calendar.get(Calendar.YEAR)), 4, "0"));
-		systemTime.append(BaseUtil.fillData(BaseUtil.toString(calendar.get(Calendar.MONTH)+1), 2, "0"));
-		systemTime.append(BaseUtil.fillData(BaseUtil.toString(calendar.get(Calendar.DAY_OF_MONTH)), 2, "0"));
-		systemTime.append(BaseUtil.fillData(BaseUtil.toString(calendar.get(Calendar.HOUR_OF_DAY)), 2, "0"));
-		systemTime.append(BaseUtil.fillData(BaseUtil.toString(calendar.get(Calendar.MINUTE)), 2, "0"));
-		systemTime.append(BaseUtil.fillData(BaseUtil.toString(calendar.get(Calendar.SECOND)), 2, "0"));
+		systemTime.append(ObjectUtil.fillString(ObjectUtil.toString(calendar.get(Calendar.YEAR)), 4, "0"));
+		systemTime.append(ObjectUtil.fillString(ObjectUtil.toString(calendar.get(Calendar.MONTH)+1), 2, "0"));
+		systemTime.append(ObjectUtil.fillString(ObjectUtil.toString(calendar.get(Calendar.DAY_OF_MONTH)), 2, "0"));
+		systemTime.append(ObjectUtil.fillString(ObjectUtil.toString(calendar.get(Calendar.HOUR_OF_DAY)), 2, "0"));
+		systemTime.append(ObjectUtil.fillString(ObjectUtil.toString(calendar.get(Calendar.MINUTE)), 2, "0"));
+		systemTime.append(ObjectUtil.fillString(ObjectUtil.toString(calendar.get(Calendar.SECOND)), 2, "0"));
 		
 		return systemTime.toString();
 	}
@@ -250,17 +250,17 @@ public final class SystemUtil {
 		StringBuffer paramDate = new StringBuffer();
 		StringBuffer paramTime = new StringBuffer();
 		
-		paramDate.append(BaseUtil.fillData(BaseUtil.toString(date.getMonth()+1), 2, "0"));
+		paramDate.append(ObjectUtil.fillString(ObjectUtil.toString(date.getMonth()+1), 2, "0"));
 		paramDate.append("-");
-		paramDate.append(BaseUtil.fillData(BaseUtil.toString(date.getDate()), 2, "0"));
+		paramDate.append(ObjectUtil.fillString(ObjectUtil.toString(date.getDate()), 2, "0"));
 		paramDate.append("-");
-		paramDate.append(BaseUtil.toString(date.getYear()).substring(2, 4));
+		paramDate.append(ObjectUtil.toString(date.getYear()).substring(2, 4));
 		
-		paramTime.append(BaseUtil.fillData(BaseUtil.toString(date.getHours()), 2, "0"));
+		paramTime.append(ObjectUtil.fillString(ObjectUtil.toString(date.getHours()), 2, "0"));
 		paramTime.append(":");
-		paramTime.append(BaseUtil.fillData(BaseUtil.toString(date.getMinutes()), 2, "0"));
+		paramTime.append(ObjectUtil.fillString(ObjectUtil.toString(date.getMinutes()), 2, "0"));
 		paramTime.append(":");
-		paramTime.append(BaseUtil.fillData(BaseUtil.toString(date.getSeconds()), 2, "0"));
+		paramTime.append(ObjectUtil.fillString(ObjectUtil.toString(date.getSeconds()), 2, "0"));
 		
 		setSystemTime(paramDate.toString(), paramTime.toString());
 	}
