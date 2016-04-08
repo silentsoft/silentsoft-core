@@ -123,6 +123,29 @@ public final class ObjectUtil {
 		return null;
 	}
 	
+	public static String fillString(String strData, int iLength, String strFilter) {
+		return fillString(strData, iLength, strFilter, false);
+	}
+	
+	public static String fillString(String strData, int iLength, String strFilter, boolean bRight) {
+		if (iLength <= strData.length()) return strData;
+		
+		StringBuffer returnString = new StringBuffer();
+		
+		int iCount = iLength - strData.length();
+		for (int i=0; i<iCount; i++) {
+			returnString.append(strFilter);
+		}
+		
+		if (bRight) {
+			returnString.insert(0, strData);
+		} else {
+			returnString.insert(iCount, strData);
+		}
+		
+		return returnString.toString();		
+	}
+	
 	public static <T extends Object> T bindValue(final T dvo, String methodName, Object emptyValue) throws Exception {
 		Class<? extends Object> clazz = dvo.getClass();
 		String _methodName = getIndexCase(methodName, 0, IndexCaseType.UPPER_CASE);
