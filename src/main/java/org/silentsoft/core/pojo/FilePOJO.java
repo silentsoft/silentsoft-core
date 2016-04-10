@@ -7,6 +7,9 @@ import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.silentsoft.core.util.FileUtil;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = { "nameWithExtension" })
 public class FilePOJO {
 
 	private File file;
