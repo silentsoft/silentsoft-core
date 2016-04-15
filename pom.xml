@@ -48,9 +48,6 @@
 
 		<!-- Test -->
 		<junit.version>4.8.1</junit.version>
-
-		<buildtime>${maven.build.timestamp}</buildtime>
-		<project.deploymentdir>${basedir}/target/silentsoft-core</project.deploymentdir>
 	</properties>
 
 	<build>
