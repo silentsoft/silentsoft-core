@@ -61,61 +61,7 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-					<encoding>EUC-KR</encoding>
 				</configuration>
-			</plugin>
-			<!-- copy all dependencies to deployment lib -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.deploymentdir}/lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-							<includeScope>runtime</includeScope>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- maven-ant-run -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<id>compile</id>
-						<phase>compile</phase>
-						<configuration>
-							<target>
-								<ant antfile="${basedir}/build.xml">
-									<property
-										name="version"
-										value="${project.version}" />
-									<property
-										name="buildtime"
-										value="${buildtime}" />
-									<target name="localtest" />
-								</ant>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-					<!-- <execution> <id>doc</id> <phase>compile</phase> <configuration> 
-						<target> <ant antfile="${basedir}/build.xml"> <target name="doc" /> </ant> 
-						</target> </configuration> <goals> <goal>run</goal> </goals> </execution> -->
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
