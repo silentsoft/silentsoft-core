@@ -75,8 +75,8 @@ public final class SystemUtil {
 	 * @param command pure CMD command
 	 * @throws IOException
 	 */
-	public static void runCommand(String command) throws IOException {
-		Runtime.getRuntime().exec("cmd /C " + command);
+	public static Process runCommand(String command) throws IOException {
+		return Runtime.getRuntime().exec("cmd /C " + command);
 	}
 	
 	/**
@@ -149,10 +149,6 @@ public final class SystemUtil {
 	 */
 	public static String getLanguage() {
 		return Locale.getDefault().getLanguage();
-	}
-	
-	public static String getUUID() {
-		return UUID.randomUUID().toString();
 	}
 	
 	/**
@@ -273,8 +269,8 @@ public final class SystemUtil {
 	 * @throws IOException
 	 */
 	public static void setSystemTime(String date, String time) throws IOException {
-		Runtime.getRuntime().exec("cmd /C date " + date); // dd-MM-yy
-		Runtime.getRuntime().exec("cmd /C time " + time); // hh:mm:ss
+		runCommand(String.format("%s%s", "date ", date)); // dd-MM-yy
+		runCommand(String.format("%s%s", "time ", time)); // hh:mm:ss
 	}
 	
 	/**
@@ -311,5 +307,44 @@ public final class SystemUtil {
 	 */
 	public static void writeRegistry(String location, String key, String type, String value) throws IOException {
 		Runtime.getRuntime().exec(REGADD_UTIL + "\"" + location + "\"" + " /v " + "\"" + key + "\"" + " /t " + type + " /d " + "\"" + value + "\"");
+	}
+	
+	/**
+	 * Returns <tt>true</tt> if the specific <code>name</code> process is exists, otherwise <tt>false</tt>. 
+	 * @param name
+	 * @return
+	 */
+	public static boolean findProcessByName(String name) {
+		return findProcess("IMAGENAME", name);
+	}
+	
+	/**
+	 * Returns <tt>true</tt> if the specific <code>pid</code> process is exists, otherwise <tt>false</tt>.
+	 * @param pid
+	 * @return
+	 */
+	public static boolean findProcessByPID(String pid) {
+		return findProcess("PID", pid);
+	}
+	
+	private static boolean findProcess(String command, String target) {
+		boolean result = false;
+		
+		try {
+			if (target != null && target.length() > 0) {
+				Process process = runCommand(String.format("%s%s%s%s%s%s%s", "tasklist /FI \"", command, " eq ", target, "\" | find /I \"", target, "\""));
+				StreamReader reader = new StreamReader(process.getInputStream());
+				
+				reader.start();
+				process.waitFor();
+				reader.join();
+				
+				result = (reader.getResult().trim().length() == 0 ? false : true);
+			}
+		} catch (Exception e) {
+			;
+		}
+		
+		return result;
 	}
 }
