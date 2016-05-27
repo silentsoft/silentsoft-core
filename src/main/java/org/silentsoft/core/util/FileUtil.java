@@ -7,7 +7,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.nio.charset.Charset;
+import java.nio.file.FileVisitOption;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.function.Function;
 
 import org.apache.commons.io.FileUtils;
 import org.silentsoft.core.CommonConst;
@@ -198,5 +205,57 @@ public class FileUtil {
 		}
 		
 		return stringBuffer.toString();
+	}
+		
+	public static boolean clean(File file, Function<File, Boolean> function) {
+		return clean(file, function, true);
+	}
+	
+	public static boolean clean(File file, Function<File, Boolean> function, boolean skipIfDeleteDenied) {
+		boolean result = true;
+		
+		try {
+			Files.walkFileTree(Paths.get(file.getPath()), new FileVisitor<Path>() {
+				@Override
+				public FileVisitResult preVisitDirectory(Path dirPath, BasicFileAttributes attrs) throws IOException {
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
+					File visitedFile = filePath.toFile();
+					if (function.apply(visitedFile)) {
+						try {
+							visitedFile.delete();
+						} catch (Exception e) {
+							if (skipIfDeleteDenied == false) {
+								throw e;
+							}
+						}
+					}
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult visitFileFailed(Path filePath, IOException exc) throws IOException {
+					return FileVisitResult.CONTINUE;
+				}
+
+				@Override
+				public FileVisitResult postVisitDirectory(Path dirPath, IOException exc) throws IOException {
+					File visitedDirectory = dirPath.toFile();
+					if (visitedDirectory.list().length == 0) {
+						visitedDirectory.delete();
+					}
+					return FileVisitResult.CONTINUE;
+				}
+			});
+		} catch (Exception e) {
+			LOGGER.error("", e);
+			
+			result = false;
+		}
+		
+		return result;
 	}
 }
