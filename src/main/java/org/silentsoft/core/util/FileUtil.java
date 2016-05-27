@@ -211,7 +211,7 @@ public class FileUtil {
 		return clean(file, function, true);
 	}
 	
-	public static boolean clean(File file, Function<File, Boolean> function, boolean skipIfDeleteDenied) {
+	public static boolean clean(File file, Function<File, Boolean> function, boolean skipIfDenied) {
 		boolean result = true;
 		
 		try {
@@ -228,7 +228,7 @@ public class FileUtil {
 						try {
 							visitedFile.delete();
 						} catch (Exception e) {
-							if (skipIfDeleteDenied == false) {
+							if (skipIfDenied == false) {
 								throw e;
 							}
 						}
@@ -238,7 +238,11 @@ public class FileUtil {
 
 				@Override
 				public FileVisitResult visitFileFailed(Path filePath, IOException exc) throws IOException {
-					return FileVisitResult.CONTINUE;
+					if (skipIfDenied) {
+						return FileVisitResult.CONTINUE;
+					}
+					
+					return FileVisitResult.TERMINATE;
 				}
 
 				@Override
