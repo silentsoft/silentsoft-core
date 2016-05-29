@@ -5,16 +5,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -343,6 +344,34 @@ public final class SystemUtil {
 			}
 		} catch (Exception e) {
 			;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Returns <tt>true</tt> if successfully added library path. otherwise, <tt>false</tt>.
+	 * @param pathToAdd
+	 * @return
+	 */
+	public static boolean addLibraryPath(String pathToAdd) {
+		boolean result = true;
+		
+		try {
+			Field usrPathsField = ClassLoader.class.getDeclaredField("usr_paths");
+			usrPathsField.setAccessible(true);
+			
+			String[] paths = (String[]) usrPathsField.get(null);
+			
+			if (Arrays.stream(paths).anyMatch(path -> path.equals(pathToAdd))) {
+				return true;
+			}
+			
+			String[] newPaths = Arrays.copyOf(paths, paths.length+1);
+			newPaths[newPaths.length-1] = pathToAdd;
+			usrPathsField.set(null, newPaths);
+		} catch (Exception e) {
+			result = false;
 		}
 		
 		return result;
