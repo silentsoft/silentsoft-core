@@ -96,6 +96,10 @@ public class FileUtil {
     	return new File(fileName).exists();
     }
     
+    public static boolean isNotExists(String fileName) {
+    	return !isExists(fileName);
+    }
+    
     public static boolean isValidPath(String path) {
     	try {
     		Paths.get(path);
@@ -104,6 +108,10 @@ public class FileUtil {
     	}
     	
     	return true;
+    }
+    
+    public static boolean isNotValidPath(String path) {
+    	return !isValidPath(path);
     }
     
     public static String getName(String fileName) {
