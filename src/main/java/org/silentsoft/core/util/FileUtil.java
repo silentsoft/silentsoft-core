@@ -96,6 +96,16 @@ public class FileUtil {
     	return new File(fileName).exists();
     }
     
+    public static boolean isValidPath(String path) {
+    	try {
+    		Paths.get(path);
+    	} catch (Exception e) {
+    		return false;
+    	}
+    	
+    	return true;
+    }
+    
     public static String getName(String fileName) {
     	int lastIndexOfSeparator = fileName.lastIndexOf(File.separator);
     	int lastIndexOfDot = fileName.lastIndexOf(CommonConst.DOT);
