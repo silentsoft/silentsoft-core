@@ -8,12 +8,17 @@ import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -62,13 +67,37 @@ public final class SystemUtil {
 	}
 	
 	public static String getHostAddress() {
-		try {
-			return Inet4Address.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e) {
-			;
+		InetAddress localAddress = getLocalAddress();
+		if (localAddress == null) {
+			try {
+				return Inet4Address.getLocalHost().getHostAddress();
+			} catch (UnknownHostException e) {
+				;
+			}
+		} else {
+			return localAddress.getHostAddress();
 		}
 		
 		return "";
+	}
+	
+	private static InetAddress getLocalAddress() {
+		try {
+			Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+			while (networkInterfaces.hasMoreElements()) {
+				List<InterfaceAddress> interfaceAddresses = networkInterfaces.nextElement().getInterfaceAddresses();
+				for (InterfaceAddress interfaceAddress : interfaceAddresses) {
+					InetAddress address =interfaceAddress.getAddress();
+					if (address.isSiteLocalAddress()) {
+						return address;
+					}
+				}
+			}
+		} catch (Exception e) {
+			;
+		}
+		
+		return null;
 	}
 	
 	/**
