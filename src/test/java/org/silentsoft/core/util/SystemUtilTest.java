@@ -8,7 +8,7 @@ public class SystemUtilTest {
 
 //	@Test
 	public void findProcessByName() {
-		Assert.assertEquals(SystemUtil.findProcessByName("cmd.exe"), true);
+		Assert.assertEquals(SystemUtil.findProcessByImageName("cmd.exe"), true);
 	}
 	
 //	@Test
@@ -16,7 +16,7 @@ public class SystemUtilTest {
 		Assert.assertEquals(SystemUtil.findProcessByPID("10124"), true);
 	}
 	
-	@Test
+//	@Test
 	public void addLibraryPathTest() {
 		Assert.assertEquals(true, SystemUtil.addLibraryPath("C:\\test"));
 	}
