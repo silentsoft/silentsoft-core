@@ -27,9 +27,6 @@
 		<!-- Silentsoft -->
 		<silentsoft-io.version>1.0.0</silentsoft-io.version>
 
-		<!-- ControlsFx -->
-		<controlsfx.version>8.20.8</controlsfx.version>
-
 		<!-- Native -->
 		<jna.version>4.1.0</jna.version>
 
@@ -65,11 +62,6 @@
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna-platform</artifactId>
 			<version>${jna.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.controlsfx</groupId>
-			<artifactId>controlsfx</artifactId>
-			<version>${controlsfx.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-daemon</groupId>
