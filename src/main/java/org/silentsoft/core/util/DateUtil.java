@@ -31,6 +31,8 @@ public final class DateUtil {
 	public static final String DATEFORMAT_WINDOWS_BLENDED = "MM-dd-yy";
 	public static final String DATEFORMAT_WINDOWS_REVERSE = "dd-MM-yy";
 	
+	public static final String DATEFORMAT_YYYYMMDD = "yyyyMMdd";
+	
 	public static final String DATEFORMAT_YYYYMMDDHHMMSS = "yyyyMMddhhmmss";
 //	public static final String DATEFORMAT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 	public static final String DATEFORMAT_YYYYMMDDHHMMSS_MASK = "yyyy-MM-dd hh:mm:ss";
