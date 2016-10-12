@@ -21,4 +21,14 @@ public class SystemUtilTest {
 		Assert.assertEquals(true, SystemUtil.addLibraryPath("C:\\test"));
 	}
 	
+//	@Test
+	public void printOSArchitecture() {
+		System.out.println(SystemUtil.getOSArchitecture());
+	}
+	
+//	@Test
+	public void printPlatformArchitecture() {
+		System.out.println(SystemUtil.getPlatformArchitecture());
+	}
+	
 }

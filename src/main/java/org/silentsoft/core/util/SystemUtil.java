@@ -535,4 +535,35 @@ public final class SystemUtil {
 		
 		return result;
 	}
+	
+	/**
+	 * Returns <tt>"x64"</tt> if the current operating system is based on 64-bit. otherwise returns <tt>"x86"</tt>.
+	 * @return
+	 */
+	public static String getOSArchitecture() {
+		String osArchitecture = "";
+		
+		try {
+			Process process = runCommand("wmic OS get OSArchitecture");
+			StreamReader reader = new StreamReader(process.getInputStream());
+			
+			reader.start();
+			process.waitFor();
+			reader.join();
+			
+			osArchitecture = reader.getResult().trim().split(CommonConst.ENTER)[1].contains("64") ? "x64" : "x86";
+		} catch (Exception e) {
+			;
+		}
+		
+		return osArchitecture;
+	}
+	
+	/**
+	 * Returns <tt>"x64"</tt> if the current platform is based on 64-bit. otherwise returns <tt>"x86"</tt>.
+	 * @return
+	 */
+	public static String getPlatformArchitecture() {
+		return System.getProperty("os.arch").contains("64") ? "x64" : "x86";
+	}
 }
