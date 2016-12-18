@@ -14,6 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 import org.apache.commons.io.FileUtils;
@@ -38,9 +40,13 @@ public class FileUtil {
      * @throws IOException thrown if an I/O error occurs opening the file
      */
     public static String readFile(File file) throws IOException {
-        StringBuffer stringBuffer = new StringBuffer();
+        return readFile(file.toPath());
+    }
+    
+    public static String readFile(Path path) throws IOException {
+    	StringBuffer stringBuffer = new StringBuffer();
 
-        BufferedReader reader = Files.newBufferedReader(file.toPath(), CHARSET);
+        BufferedReader reader = Files.newBufferedReader(path, CHARSET);
 
         String line = null;
         while ((line = reader.readLine()) != null) {
@@ -51,18 +57,52 @@ public class FileUtil {
 
         return stringBuffer.toString();
     }
+    
+    public static List<String> readFileByLine(Path path, boolean trim) {
+    	ArrayList<String> content = new ArrayList<String>();
+    	
+    	if (Files.isReadable(path)) {
+    		BufferedReader reader = null;
+        	try {
+        		reader = Files.newBufferedReader(path, CHARSET);
+            	
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    content.add(trim ? line.trim() : line);
+                }
+        	} catch (Exception e) {
+        		
+        	} finally {
+        		if (reader != null) {
+        			try {
+    					reader.close();
+    				} catch (IOException e) {
+    					
+    				}
+        		}
+        	}
+    	}
+    	
+    	return content;
+    }
 
     /**
      * Saves the content String to the specified file.
      * 
-     * @param content
      * @param file
+     * @param content
      * @throws IOException thrown if an I/O error occurs opening or creating the file
      */
-    public static void saveFile(String content, File file) throws IOException {
-        BufferedWriter writer = Files.newBufferedWriter(file.toPath(), CHARSET);
-        writer.write(content, 0, content.length());
-        writer.close();
+    public static void saveFile(File file, String content) throws IOException {
+        saveFile(file.toPath(), content);
+    }
+    
+    public static void saveFile(Path path, String content) throws IOException {
+    	if (Files.isWritable(path)) {
+    		BufferedWriter writer = Files.newBufferedWriter(path, CHARSET);
+        	writer.write(content, 0, content.length());
+            writer.close();
+    	}
     }
     
     /**
