@@ -98,6 +98,10 @@ public class FileUtil {
     }
     
     public static void saveFile(Path path, String content) throws IOException {
+    	if (Files.exists(path) == false) {
+    		Files.createFile(path);
+    	}
+    	
     	if (Files.isWritable(path)) {
     		BufferedWriter writer = Files.newBufferedWriter(path, CHARSET);
         	writer.write(content, 0, content.length());
