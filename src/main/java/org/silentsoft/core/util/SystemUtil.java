@@ -399,6 +399,12 @@ public final class SystemUtil {
 			return result[REGINFO_RSLT].trim();
 	}
 	
+	public enum RegType {
+		REG_SZ,
+		REG_DWORD
+		//,REG_QWORD, ...
+	}
+	
 	/**
 	 * if operating system is higher version then windows XP, you need to start this program "run as administrator".
 	 * SysUtil.writeRegistry("HKLM\\Software\\Microsoft\\Internet Explorer", "Info", "REG_SZ", "FOR TEST.");
@@ -408,8 +414,17 @@ public final class SystemUtil {
 	 * @param value example : "FOR TEST."
 	 * @throws IOException
 	 */
-	public static void writeRegistry(String location, String key, String type, String value) throws IOException {
-		Runtime.getRuntime().exec(REGADD_UTIL + "\"" + location + "\"" + " /v " + "\"" + key + "\"" + " /t " + type + " /d " + "\"" + value + "\"");
+	public static void writeRegistry(String location, String key, RegType regType, Object value) throws IOException {
+		Runtime.getRuntime().exec(REGADD_UTIL + "\"" + location + "\"" + " /v " + "\"" + key + "\"" + " /t " + regType.name() + " /d " + (regType == RegType.REG_SZ ? "\"" + value + "\"" : value) + " /f");
+	}
+	
+	/**
+	 * Write registry as administrator.
+	 * @param command
+	 * @see #writeRegistry(String, String, String, String)
+	 */
+	public static void writeRegistryAsAdmin(String location, String key, RegType regType, Object value) {
+		Elevator.executeAsAdmin("c:\\windows\\system32\\reg.exe", "add " + "\"" + location + "\"" + " /v " + "\"" + key + "\"" + " /t " + regType.name() + " /d " + (regType == RegType.REG_SZ ? "\"" + value + "\"" : value) + " /f");
 	}
 	
 	/**
