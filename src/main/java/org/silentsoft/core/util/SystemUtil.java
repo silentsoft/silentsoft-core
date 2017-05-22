@@ -24,14 +24,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
-
 import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
 
 import org.silentsoft.core.CommonConst;
 import org.silentsoft.core.util.elevator.core.Elevator;
+import org.silentsoft.core.util.elevator.extend.CLibrary;
+
+import com.sun.jna.platform.win32.Kernel32;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 
 public final class SystemUtil {
 	
@@ -44,16 +47,6 @@ public final class SystemUtil {
 //	private static final int REGINFO_NAME = 1;
 	private static final int REGINFO_TYPE = 2;
 	private static final int REGINFO_RSLT = 3;
-	
-	private static final int IMAGE_NAME = 0;
-	private static final int PID = 1;
-	private static final int SESSION_NAME = 2;
-	private static final int SESSION_ID = 3;
-	private static final int MEMORY_USAGE = 4;
-	private static final int STATUS = 5;
-	private static final int USER_NAME = 6;
-	private static final int CPU_TIME = 7;
-	private static final int WINDOW_TITLE = 8;
 	
 	private static class StreamReader extends Thread {
 		private InputStream is;
@@ -80,62 +73,48 @@ public final class SystemUtil {
 	}
 	
 	public static class ProcessInfo {
-		private String imageName;
 		private String pid;
-		private String sessionName;
 		private String sessionId;
-		private String memoryUsage;
-		private String status;
 		private String userName;
-		private String cpuTime;
-		private String windowTitle;
+		private String imageName;
 		
-		ProcessInfo(String imageName, String pid, String sessionName, String sessionId, String memoryUsage, String status, String userName, String cpuTime, String windowTitle) {
-			this.imageName = imageName;
+		public ProcessInfo(String pid, String sessionId, String userName, String imageName) {
 			this.pid = pid;
-			this.sessionName = sessionName;
 			this.sessionId = sessionId;
-			this.memoryUsage = memoryUsage;
-			this.status = status;
 			this.userName = userName;
-			this.cpuTime = cpuTime;
-			this.windowTitle = windowTitle;
+			this.imageName = imageName;
 		}
-		
-		public String getImageName() {
-			return imageName;
-		}
-		
+
 		public String getPid() {
 			return pid;
 		}
-		
-		public String getSessionName() {
-			return sessionName;
+
+		public void setPid(String pid) {
+			this.pid = pid;
 		}
-		
+
 		public String getSessionId() {
 			return sessionId;
 		}
-		
-		public String getMemoryUsage() {
-			return memoryUsage;
+
+		public void setSessionId(String sessionId) {
+			this.sessionId = sessionId;
 		}
-		
-		public String getStatus() {
-			return status;
-		}
-		
+
 		public String getUserName() {
 			return userName;
 		}
-		
-		public String getCpuTime() {
-			return cpuTime;
+
+		public void setUserName(String userName) {
+			this.userName = userName;
 		}
-		
-		public String getWindowTitle() {
-			return windowTitle;
+
+		public String getImageName() {
+			return imageName;
+		}
+
+		public void setImageName(String imageName) {
+			this.imageName = imageName;
 		}
 	}
 	
@@ -179,7 +158,11 @@ public final class SystemUtil {
 	 * @throws IOException
 	 */
 	public static Process runCommand(String command) throws IOException {
-		return Runtime.getRuntime().exec("cmd /C " + command);
+		if (isWindows()) {
+			return Runtime.getRuntime().exec("cmd /C " + command);
+		}
+		
+		return Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", command});
 	}
 	
 	/**
@@ -384,19 +367,23 @@ public final class SystemUtil {
 	 * @throws Exception
 	 */
 	public static String readRegistry(String location, String key) throws Exception {
-		Process process = Runtime.getRuntime().exec(REGQUERY_UTIL + "\"" + location + "\"" + " /v " + "\"" + key + "\"");
-		StreamReader reader = new StreamReader(process.getInputStream());
+		if (isWindows()) {
+			Process process = Runtime.getRuntime().exec(REGQUERY_UTIL + "\"" + location + "\"" + " /v " + "\"" + key + "\"");
+			StreamReader reader = new StreamReader(process.getInputStream());
+			
+			reader.start();
+			process.waitFor();
+			reader.join();
+			
+			String result[] = reader.getResult().split("    ");
+			
+			if (result[REGINFO_TYPE].trim().equals(REGTYPE_DWORD) || result[REGINFO_TYPE].trim().equals(REGTYPE_QWORD))
+				return new BigInteger(result[REGINFO_RSLT].trim().substring("0x".length()), 16).toString();
+			else
+				return result[REGINFO_RSLT].trim();
+		}
 		
-		reader.start();
-		process.waitFor();
-		reader.join();
-		
-		String result[] = reader.getResult().split("    ");
-		
-		if (result[REGINFO_TYPE].trim().equals(REGTYPE_DWORD) || result[REGINFO_TYPE].trim().equals(REGTYPE_QWORD))
-			return new BigInteger(result[REGINFO_RSLT].trim().substring("0x".length()), 16).toString();
-		else
-			return result[REGINFO_RSLT].trim();
+		return null;
 	}
 	
 	public enum RegType {
@@ -415,7 +402,9 @@ public final class SystemUtil {
 	 * @throws IOException
 	 */
 	public static void writeRegistry(String location, String key, RegType regType, Object value) throws IOException {
-		Runtime.getRuntime().exec(REGADD_UTIL + "\"" + location + "\"" + " /v " + "\"" + key + "\"" + " /t " + regType.name() + " /d " + (regType == RegType.REG_SZ ? "\"" + value + "\"" : value) + " /f");
+		if (isWindows()) {
+			Runtime.getRuntime().exec(REGADD_UTIL + "\"" + location + "\"" + " /v " + "\"" + key + "\"" + " /t " + regType.name() + " /d " + (regType == RegType.REG_SZ ? "\"" + value + "\"" : value) + " /f");
+		}
 	}
 	
 	/**
@@ -424,7 +413,9 @@ public final class SystemUtil {
 	 * @see #writeRegistry(String, String, String, String)
 	 */
 	public static void writeRegistryAsAdmin(String location, String key, RegType regType, Object value) {
-		Elevator.executeAsAdmin("c:\\windows\\system32\\reg.exe", "add " + "\"" + location + "\"" + " /v " + "\"" + key + "\"" + " /t " + regType.name() + " /d " + (regType == RegType.REG_SZ ? "\"" + value + "\"" : value) + " /f");
+		if (isWindows()) {
+			Elevator.executeAsAdmin("c:\\windows\\system32\\reg.exe", "add " + "\"" + location + "\"" + " /v " + "\"" + key + "\"" + " /t " + regType.name() + " /d " + (regType == RegType.REG_SZ ? "\"" + value + "\"" : value) + " /f");
+		}
 	}
 	
 	/**
@@ -432,8 +423,15 @@ public final class SystemUtil {
 	 * @return
 	 */
 	public static String getCurrentProcessId() {
+		if (isWindows()) {
+			return String.valueOf(Kernel32.INSTANCE.GetCurrentProcessId());
+		} else if (isMac() || isLinux()) {
+			return String.valueOf(CLibrary.INSTANCE.getpid());
+		}
+		
 		return ManagementFactory.getRuntimeMXBean().getName().split(CommonConst.AT)[CommonConst.FIRST_INDEX];
 	}
+
 	
 	/**
 	 * Returns <tt>true</tt> if the specific <code>imageName</code> process is exists, otherwise <tt>false</tt>.
@@ -496,24 +494,56 @@ public final class SystemUtil {
 		
 		try {
 			if (target != null && target.length() > 0) {
-				Process process = runCommand(String.join("", "tasklist /V /FO \"CSV\" /FI \"", command, " eq ", target, "\" | find /I \"", target, "\""));
-				StreamReader reader = new StreamReader(process.getInputStream());
+				Process process = null;
 				
-				reader.start();
-				process.waitFor();
-				reader.join();
-				
-				String[] rows = reader.getResult().split(CommonConst.ENTER);
-				for (String row : rows) {
-					if ("".equals(row) || row.trim().length() == 0) {
-						continue;
+				if (isWindows()) {
+					process = runCommand(String.join("", "tasklist /V /FO \"CSV\" /FI \"", command, " eq ", target, "\" | find /I \"", target, "\""));
+				} else {
+					if ("IMAGENAME".equals(command)) {
+						process = runCommand(String.join("", "ps -eo ucomm=,pid=,sess=,user= | grep -w \"^", target, " \"", " | awk '{print ", "\"\\\"\"", String.join("\"\\\",\" \"\\\"\"", "$1", "$2", "$3", "$4"), "\"\\\"\"}'"));
+					} else if ("PID".equals(command)) {
+						process = runCommand(String.join("", "ps -eo ucomm=,pid=,sess=,user= ", target, " | awk '{print ", "\"\\\"\"", String.join("\"\\\",\" \"\\\"\"", "$1", "$2", "$3", "$4"), "\"\\\"\"}'"));
 					}
+				}
+				
+				if (process != null) {
+					StreamReader reader = new StreamReader(process.getInputStream());
 					
-					String[] cols = row.split("\",\"");
-					cols[0] = cols[0].replaceAll(CommonConst.QUOTATION_MARK_DOUBLE, CommonConst.NULL_STR);
-					cols[cols.length-1] = cols[cols.length-1].replaceAll(CommonConst.QUOTATION_MARK_DOUBLE, CommonConst.NULL_STR);
+					reader.start();
+					process.waitFor();
+					reader.join();
 					
-					processes.add(new ProcessInfo(cols[IMAGE_NAME], cols[PID], cols[SESSION_NAME], cols[SESSION_ID], cols[MEMORY_USAGE], cols[STATUS], cols[USER_NAME], cols[CPU_TIME], cols[WINDOW_TITLE]));
+					String[] rows = reader.getResult().split(CommonConst.ENTER);
+					for (String row : rows) {
+						if ("".equals(row) || row.trim().length() == 0) {
+							continue;
+						}
+						
+						if (isWindows()) {
+							String[] cols = row.split("\",\"");
+							cols[0] = cols[0].replaceAll(CommonConst.QUOTATION_MARK_DOUBLE, CommonConst.NULL_STR);
+							cols[cols.length-1] = cols[cols.length-1].replaceAll(CommonConst.QUOTATION_MARK_DOUBLE, CommonConst.NULL_STR);
+							/**
+							 * final int IMAGE_NAME = 0;
+							 * final int PID = 1;
+							 * final int SESSION_NAME = 2;
+							 * final int SESSION_ID = 3;
+							 * final int MEMORY_USAGE = 4;
+							 * final int STATUS = 5;
+							 * final int USER_NAME = 6;
+							 * final int CPU_TIME = 7;
+							 * final int WINDOW_TITLE = 8;
+							 */
+							processes.add(new ProcessInfo(cols[1], cols[3], cols[6], cols[0]));
+						} else {
+							String[] cols = row.split("\t");
+							cols[0] = cols[0].replaceAll(CommonConst.QUOTATION_MARK_DOUBLE, CommonConst.NULL_STR);
+							cols = cols[0].split(",");
+							cols[cols.length-1] = cols[cols.length-1].replaceAll("\n", CommonConst.NULL_STR);
+							
+							processes.add(new ProcessInfo(cols[1], cols[2], cols[3], cols[0]));
+						}
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -558,17 +588,21 @@ public final class SystemUtil {
 	public static String getOSArchitecture() {
 		String osArchitecture = "";
 		
-		try {
-			Process process = runCommand("wmic OS get OSArchitecture");
-			StreamReader reader = new StreamReader(process.getInputStream());
-			
-			reader.start();
-			process.waitFor();
-			reader.join();
-			
-			osArchitecture = reader.getResult().trim().split(CommonConst.ENTER)[1].contains("64") ? "x64" : "x86";
-		} catch (Exception e) {
-			;
+		if (isWindows()) {
+			try {
+				Process process = runCommand("wmic OS get OSArchitecture");
+				StreamReader reader = new StreamReader(process.getInputStream());
+				
+				reader.start();
+				process.waitFor();
+				reader.join();
+				
+				osArchitecture = reader.getResult().trim().split(CommonConst.ENTER)[1].contains("64") ? "x64" : "x86";
+			} catch (Exception e) {
+				;
+			}
+		} else {
+			osArchitecture = System.getProperty("os.arch").contains("64") ? "x64" : "x86";
 		}
 		
 		return osArchitecture;
@@ -581,4 +615,34 @@ public final class SystemUtil {
 	public static String getPlatformArchitecture() {
 		return System.getProperty("os.arch").contains("64") ? "x64" : "x86";
 	}
+	
+	public enum OS {
+		Windows, Linux, Mac
+	}
+	
+	public static OS getOS() {
+		String osName = System.getProperty("os.name").toLowerCase();
+		if (osName.contains("win")) {
+			return OS.Windows;
+		} else if (osName.contains("nix") || osName.contains("nux")) {
+			return OS.Linux;
+		} else if (osName.contains("mac")) {
+			return OS.Mac;
+		}
+		
+		return null;
+	}
+	
+	public static boolean isWindows() {
+		return getOS() == OS.Windows;
+	}
+	
+	public static boolean isLinux() {
+		return getOS() == OS.Linux;
+	}
+	
+	public static boolean isMac() {
+		return getOS() == OS.Mac;
+	}
+	
 }
