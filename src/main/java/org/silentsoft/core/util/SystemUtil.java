@@ -633,6 +633,22 @@ public final class SystemUtil {
 		return null;
 	}
 	
+	/**
+	 * Returns <tt>"windows"</tt> or <tt>"macosx"</tt> or <tt>"linux"</tt>. otherwise returns <tt>"unknown"</tt>
+	 * @return
+	 */
+	public static String getOSName() {
+		if (isWindows()) {
+			return "windows";
+		} else if (isMac()) {
+			return "macosx";
+		} else if (isLinux()) {
+			return "linux";
+		}
+		
+		return "unknown";
+	}
+	
 	public static boolean isWindows() {
 		return getOS() == OS.Windows;
 	}
