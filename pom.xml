@@ -28,7 +28,7 @@
 		<silentsoft-io.version>1.0.0</silentsoft-io.version>
 
 		<!-- Native -->
-		<jna.version>4.1.0</jna.version>
+		<jna.version>4.5.1</jna.version>
 
 		<!-- Apache -->
 		<commons-daemon.version>1.0.10</commons-daemon.version>
