@@ -32,6 +32,7 @@ public final class DateUtil {
 	public static final String DATEFORMAT_WINDOWS_REVERSE = "dd-MM-yy";
 	
 	public static final String DATEFORMAT_YYYYMMDD = "yyyyMMdd";
+	public static final String DATEFORMAT_YYYYMMDD_MASK = "yyyy-MM-dd";
 	
 	public static final String DATEFORMAT_YYYYMMDDHHMMSS = "yyyyMMddhhmmss";
 //	public static final String DATEFORMAT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
