@@ -98,7 +98,10 @@ public class FileUtil {
     }
     
     public static void saveFile(Path path, String content) throws IOException {
-    	if (Files.exists(path) == false) {
+    	if (Files.notExists(path)) {
+    		if (Files.notExists(path.getParent())) {
+    			Files.createDirectories(path.getParent());
+    		}
     		Files.createFile(path);
     	}
     	
