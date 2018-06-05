@@ -147,12 +147,16 @@ public final class ObjectUtil {
 	}
 	
 	public static <T extends Object> T bindValue(final T dvo, String methodName, Object emptyValue) throws Exception {
+		return bindValue(dvo, methodName, emptyValue, false);
+	}
+	
+	public static <T extends Object> T bindValue(final T dvo, String methodName, Object emptyValue, boolean force) throws Exception {
 		Class<? extends Object> clazz = dvo.getClass();
 		String _methodName = getIndexCase(methodName, 0, IndexCaseType.UPPER_CASE);
 		Method getMethod = clazz.getDeclaredMethod("get".concat(_methodName));
 		Object value = getMethod.invoke(dvo);
 
-		if (isEmpty(value)) {
+		if (force || isEmpty(value)) {
 			Method setMethod = clazz.getDeclaredMethod("set".concat(_methodName), emptyValue.getClass());
 			setMethod.invoke(dvo, emptyValue);
 		}
@@ -161,9 +165,13 @@ public final class ObjectUtil {
 	}
 	
 	public static Map<String, Object> bindMapValue(final Map<String, Object> map, String fieldName, Object emptyValue) throws Exception {
+		return bindMapValue(map, fieldName, emptyValue, false);
+	}
+	
+	public static Map<String, Object> bindMapValue(final Map<String, Object> map, String fieldName, Object emptyValue, boolean force) throws Exception {
 		Object value = map.get(fieldName);
 		
-		if (isEmpty(value)) {
+		if (force || isEmpty(value)) {
 			map.put(fieldName, emptyValue);
 		}
 		
