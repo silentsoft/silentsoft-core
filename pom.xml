@@ -1,8 +1,6 @@
-<project
-	xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
->
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.silentsoft</groupId>
@@ -13,6 +11,13 @@
 		<repository>
 			<id>silentsoft-repository</id>
 			<url>http://nexus.silentsoft.org/repository/maven-releases</url>
+		</repository>
+		<repository>
+			<id>silentsoft-snapshot-repository</id>
+			<url>http://nexus.silentsoft.org/repository/maven-snapshots</url>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>maven-repo</id>
@@ -50,7 +55,7 @@
 		<!-- Test -->
 		<junit.version>4.8.1</junit.version>
 	</properties>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -77,7 +82,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.silentsoft</groupId>
