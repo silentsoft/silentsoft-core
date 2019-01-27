@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.silentsoft</groupId>
 	<artifactId>silentsoft-core</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.1.1</version>
 
 	<repositories>
 		<repository>
@@ -34,7 +34,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- Silentsoft -->
-		<silentsoft-io.version>1.1.1-SNAPSHOT</silentsoft-io.version>
+		<silentsoft-io.version>1.1.1</silentsoft-io.version>
 
 		<!-- Native -->
 		<jna.version>4.5.1</jna.version>
