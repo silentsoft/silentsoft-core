@@ -31,8 +31,6 @@ import org.silentsoft.core.CommonConst;
 import org.silentsoft.core.util.elevator.core.Elevator;
 import org.silentsoft.core.util.elevator.extend.CLibrary;
 
-import com.sun.jna.platform.win32.Kernel32;
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
@@ -423,9 +421,9 @@ public final class SystemUtil {
 	 * @return
 	 */
 	public static String getCurrentProcessId() {
-		if (isWindows()) {
+		/*if (isWindows()) {
 			return String.valueOf(Kernel32.INSTANCE.GetCurrentProcessId());
-		} else if (isMac() || isLinux()) {
+		} else*/ if (isMac() || isLinux()) {
 			return String.valueOf(CLibrary.INSTANCE.getpid());
 		}
 		
