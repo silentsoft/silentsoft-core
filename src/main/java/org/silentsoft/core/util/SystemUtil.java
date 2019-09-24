@@ -495,7 +495,7 @@ public final class SystemUtil {
 				Process process = null;
 				
 				if (isWindows()) {
-					process = runCommand(String.join("", "tasklist /V /FO \"CSV\" /FI \"", command, " eq ", target, "\" | find /I \"", target, "\""));
+					process = runCommand(String.join("", "tasklist /V /FO \"CSV\" /FI \"", command, " eq ", target, "\" | findstr /I \"", target, "\""));
 				} else {
 					if ("IMAGENAME".equals(command)) {
 						process = runCommand(String.join("", "ps -eo ucomm=,pid=,sess=,user= | grep -w \"^", target, " \"", " | awk '{print ", "\"\\\"\"", String.join("\"\\\",\" \"\\\"\"", "$1", "$2", "$3", "$4"), "\"\\\"\"}'"));
