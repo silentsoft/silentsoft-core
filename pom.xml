@@ -35,7 +35,7 @@
 		<commons-net.version>3.3</commons-net.version>
 
 		<!-- JSON -->
-		<jackson.version>2.4.2</jackson.version>
+		<jackson.version>2.10.0</jackson.version>
 		<jason.version>20141113</jason.version>
 
 		<!-- Logging -->
