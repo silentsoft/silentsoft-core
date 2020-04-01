@@ -21,15 +21,15 @@ __commons-net 3.3__
  * https://github.com/apache/commons-net
  * Apache License 2.0
 
-__jackson-annotations 2.4.2__
+__jackson-annotations 2.10.3__
  * https://github.com/FasterXML/jackson-annotations
  * Apache License 2.0
 
-__jackson-core 2.4.2__
+__jackson-core 2.10.3__
  * https://github.com/FasterXML/jackson-core
  * Apache License 2.0
 
-__jackson-databind 2.4.2__
+__jackson-databind 2.10.3__
  * https://github.com/FasterXML/jackson-databind
  * Apache License 2.0
 
@@ -40,10 +40,6 @@ __jna 4.5.1__
 __jna-platform 4.5.1__
  * https://github.com/java-native-access/jna
  * Apache License 2.0
-
-__json 20141113__
- * https://github.com/douglascrockford/JSON-java
- * JSON License
 
 __log4j 1.2.17__
  * https://github.com/apache/log4j
@@ -61,6 +57,7 @@ ______
 
 __Apache License 2.0__
 
+```
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -262,25 +259,12 @@ __Apache License 2.0__
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-
-______
-
-__JSON License__
-
-Copyright (c) 2002 JSON.org
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-The Software shall be used for Good, not Evil.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+```
 ______
 
 __MIT License__
 
+```
 Copyright <YEAR> <COPYRIGHT HOLDER>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -288,3 +272,4 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
