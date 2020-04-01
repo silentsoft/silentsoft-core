@@ -36,7 +36,6 @@
 
 		<!-- JSON -->
 		<jackson.version>2.10.3</jackson.version>
-		<jason.version>20141113</jason.version>
 
 		<!-- Logging -->
 		<slf4j.version>1.7.5</slf4j.version>
@@ -122,11 +121,6 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>${jason.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
