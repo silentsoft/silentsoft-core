@@ -395,7 +395,7 @@ public final class SystemUtil {
 	 * SysUtil.writeRegistry("HKLM\\Software\\Microsoft\\Internet Explorer", "Info", "REG_SZ", "FOR TEST.");
 	 * @param location example : "HKLM\\Software\\Microsoft\\Internet Explorer"
 	 * @param key example : "Info"
-	 * @param type example : "REG_SZ", "REG_DWORD", "REG_QWORD", etc...
+	 * @param regType example : REG_SZ, REG_DWORD
 	 * @param value example : "FOR TEST."
 	 * @throws IOException
 	 */
@@ -407,8 +407,11 @@ public final class SystemUtil {
 	
 	/**
 	 * Write registry as administrator.
-	 * @param command
-	 * @see #writeRegistry(String, String, String, String)
+	 * @param location
+	 * @param key
+	 * @param regType
+	 * @param value
+	 * @see #writeRegistry(String, String, RegType, Object)
 	 */
 	public static void writeRegistryAsAdmin(String location, String key, RegType regType, Object value) {
 		if (isWindows()) {
