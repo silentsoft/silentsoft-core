@@ -38,7 +38,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<silentsoft-io.version>1.2.0</silentsoft-io.version>
+		<silentsoft-io.version>1.3.0</silentsoft-io.version>
 		<jna.version>4.5.1</jna.version>
 		<commons-daemon.version>1.0.10</commons-daemon.version>
 		<commons-lang.version>2.6</commons-lang.version>
