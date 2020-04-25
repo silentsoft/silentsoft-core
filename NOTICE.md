@@ -41,15 +41,11 @@ __jna-platform 4.5.1__
  * https://github.com/java-native-access/jna
  * Apache License 2.0
 
-__log4j 1.2.17__
- * https://github.com/apache/log4j
+__silentsoft-io 1.3.0__
+ * https://github.com/silentsoft/silentsoft-io
  * Apache License 2.0
 
-__slf4j-api 1.7.5__
- * https://github.com/qos-ch/slf4j
- * MIT License
-
-__slf4j-log4j12 1.7.5__
+__slf4j-api 1.7.25__
  * https://github.com/qos-ch/slf4j
  * MIT License
 
