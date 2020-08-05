@@ -47,6 +47,7 @@
 		<jackson.version>2.10.3</jackson.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<junit.version>4.8.1</junit.version>
+		<notice-file-generator.version>2.2.2</notice-file-generator.version>
 	</properties>
 
 	<build>
@@ -195,6 +196,12 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.silentsoft.oss</groupId>
+			<artifactId>notice-file-generator</artifactId>
+			<version>${notice-file-generator.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
